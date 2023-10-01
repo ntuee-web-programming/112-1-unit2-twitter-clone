@@ -1,5 +1,5 @@
 import type { Metadata } from "next";
-import { Inter } from "next/font/google";
+import { Noto_Sans } from "next/font/google";
 
 import Header from "@/components/Header";
 import { Separator } from "@/components/ui/separator";
@@ -7,7 +7,11 @@ import { cn } from "@/lib/utils";
 
 import "./globals.css";
 
-const inter = Inter({ subsets: ["latin"] });
+const noto = Noto_Sans({
+  subsets: ["latin-ext"],
+  weight: ["400", "700"],
+  variable: "--noto-sans",
+});
 
 export const metadata: Metadata = {
   title: "twitter clone",
@@ -22,7 +26,7 @@ export default function RootLayout({
 }) {
   return (
     <html lang="en">
-      <body className={cn(inter.className, "mx-auto flex max-w-3xl")}>
+      <body className={cn(noto.className, "mx-auto flex max-w-3xl")}>
         <Header />
         <main className="flex min-h-screen max-w-xl grow">
           <Separator orientation="vertical" />

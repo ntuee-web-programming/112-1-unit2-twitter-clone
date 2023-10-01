@@ -1,16 +1,14 @@
+import Image from "next/image";
 import Link from "next/link";
 
-import { Separator } from "./ui/separator";
+import Larry from "@/assets/larry.png";
 
 export default function Header() {
   return (
-    <>
-      <div className="container flex h-16 flex-row items-center justify-between space-y-0 py-4">
-        <Link href="/">
-          <h2 className="text-lg font-semibold">twitter</h2>
-        </Link>
-      </div>
-      <Separator />
-    </>
+    <div className="flex min-h-screen flex-col items-center px-4 py-6">
+      <Link href="/">
+        <Image src={Larry} alt="Larry the bird" width={40} height={40} />
+      </Link>
+    </div>
   );
 }
