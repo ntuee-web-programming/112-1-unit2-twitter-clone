@@ -13,29 +13,43 @@ import {
   Users,
 } from "lucide-react";
 
-import Larry from "@/assets/larry.png";
+import avatar from "@/assets/avatar.png";
+import larry from "@/assets/larry.png";
 import { cn } from "@/lib/utils";
 
 export default function Header() {
   return (
     // aside is a semantic html tag for side content
-    <aside className="flex min-h-screen flex-col gap-2 px-8 py-6">
-      <div className="p-2">
-        <Link href="/">
-          <Image src={Larry} alt="Larry the bird" width={40} height={40} />
-        </Link>
+    <aside className="flex min-h-screen flex-col justify-between px-6 py-6">
+      <div className="flex flex-col gap-2">
+        <div className="p-2">
+          <Link href="/">
+            <Image src={larry} alt="Larry the bird" width={40} height={40} />
+          </Link>
+        </div>
+        <HeaderButton Icon={Home} text="Home" active />
+        <HeaderButton Icon={Search} text="Explore" />
+        <HeaderButton Icon={Bell} text="Notifications" />
+        <HeaderButton Icon={Mail} text="Messages" />
+        <HeaderButton Icon={FileText} text="Lists" />
+        <HeaderButton Icon={Bookmark} text="Bookmarks" />
+        <HeaderButton Icon={Users} text="Communities" />
+        <HeaderButton Icon={User} text="Profile" />
+        <HeaderButton Icon={MoreHorizontal} text="More" />
       </div>
-      <HeaderButton Icon={Home} text="Home" active />
-      <HeaderButton Icon={Search} text="Explore" />
-      <HeaderButton Icon={Bell} text="Notifications" />
-      <HeaderButton Icon={Mail} text="Messages" />
-      <HeaderButton Icon={FileText} text="Lists" />
-      <HeaderButton Icon={Bookmark} text="Bookmarks" />
-      <HeaderButton Icon={Users} text="Communities" />
-      <HeaderButton Icon={User} text="Profile" />
-      <HeaderButton Icon={MoreHorizontal} text="More" />
-      <button className="bg-brand mt-4 w-72 rounded-full py-3 text-white">
-        Tweet
+      <button className="flex items-center gap-2 rounded-full p-3 text-start transition-all duration-300 hover:bg-gray-200">
+        <Image
+          src={avatar}
+          alt="Larry the bird"
+          width={48}
+          height={48}
+          className="rounded-full"
+        />
+        <div className="w-40 max-lg:hidden">
+          <p className="text-sm font-bold">Web Programming</p>
+          <p className="text-sm text-gray-500">@ntueewp</p>
+        </div>
+        <MoreHorizontal size={24} className="max-lg:hidden" />
       </button>
     </aside>
   );
@@ -54,29 +68,30 @@ type HeaderButtonProps = {
 
 function HeaderButton({ Icon, text, active }: HeaderButtonProps) {
   return (
-    <Link
-      href="/"
-      // prefix a class with hover: to make it only apply when the element is hovered
-      className="flex items-center gap-4 rounded-full p-2 pr-4 transition-all duration-300 hover:bg-gray-200"
-    >
-      <div className="grid h-[40px] w-[40px] place-items-center">
-        <Icon
-          // now that we defined the interface for Icon, we can pass in the size and strokeWidth props safely
-          size={26}
-          strokeWidth={active ? 3 : 2}
-        />
-      </div>
-      <span
-        // the `cn` helper function basically concatenate your tailwind classes in a safe way
-        // on the surface, it will remove any falsy values from the array, it also remove any redundant classes
-        // this is useful for conditional classes
-        // prefixing a class with max-lg: makes it only apply to screen size below lg, this is the tailwind way of media queries
-        // likewise, prefixing a class with lg: makes it only apply to screen size above lg
-        // read more about tailwind responsive design here: https://tailwindcss.com/docs/responsive-design
-        className={cn("text-xl max-lg:hidden", active && "font-bold")}
+    <Link href="/" className="group w-full">
+      <div
+        // prefix a class with hover: to make it only apply when the element is hovered
+        className="flex w-fit items-center gap-4 rounded-full p-2 transition-all duration-300 group-hover:bg-gray-200 lg:pr-4"
       >
-        {text}
-      </span>
+        <div className="grid h-[40px] w-[40px] place-items-center">
+          <Icon
+            // now that we defined the interface for Icon, we can pass in the size and strokeWidth props safely
+            size={26}
+            strokeWidth={active ? 3 : 2}
+          />
+        </div>
+        <span
+          // the `cn` helper function basically concatenate your tailwind classes in a safe way
+          // on the surface, it will remove any falsy values from the array, it also remove any redundant classes
+          // this is useful for conditional classes
+          // prefixing a class with max-lg: makes it only apply to screen size below lg, this is the tailwind way of media queries
+          // likewise, prefixing a class with lg: makes it only apply to screen size above lg
+          // read more about tailwind responsive design here: https://tailwindcss.com/docs/responsive-design
+          className={cn("text-xl max-lg:hidden", active && "font-bold")}
+        >
+          {text}
+        </span>
+      </div>
     </Link>
   );
 }
