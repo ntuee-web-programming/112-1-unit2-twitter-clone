@@ -40,7 +40,7 @@ export default function Header() {
       <button className="flex items-center gap-2 rounded-full p-3 text-start transition-all duration-300 hover:bg-gray-200">
         <Image
           src={avatar}
-          alt="Larry the bird"
+          alt="madmaxieee"
           width={48}
           height={48}
           className="rounded-full"
