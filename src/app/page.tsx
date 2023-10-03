@@ -45,7 +45,13 @@ export default function Home() {
           </div>
           <Separator />
         </>
-        <Tweet />
+        <Tweet
+          username="mad max"
+          content="Lorem ipsum dolor sit amet, qui minim labore adipisicing minim sint cillum sint consectetur cupidatat."
+          id="1"
+          likes={5}
+          replies={11}
+        />
       </div>
       <NameDialog />
     </>

@@ -1,46 +1,82 @@
+"use client";
+
+import Link from "next/link";
+
 import { MessageCircle, Repeat2, Heart, Share } from "lucide-react";
 
 import { Separator } from "@/components/ui/separator";
+import { getAvatar, getHandle } from "@/lib/utils";
 
-export default function Tweet() {
+type TweetProps = {
+  id: string;
+  username: string;
+  content: string;
+  likes: number;
+  replies: number;
+};
+
+export default function Tweet({
+  username,
+  content,
+  likes,
+  replies,
+}: TweetProps) {
   return (
     <>
-      <div className="w-full px-4 pt-3">
+      <Link
+        className="w-full px-4 pt-3 transition-colors hover:bg-gray-50"
+        href="/"
+      >
         <div className="flex gap-4">
           {/* eslint-disable-next-line @next/next/no-img-element */}
           <img
-            src="https://cloudflare-ipfs.com/ipfs/Qmd3W5DuhgHirLHGVixi6V76LhCkZUz6pnFt5AJBiyvHye/avatar/750.jpg"
+            src={getAvatar(username)}
             alt="avatar"
             className="h-12 w-12 rounded-full"
           />
-          <article className="flex flex-col">
+          <article className="flex grow flex-col">
             <p className="font-bold">
-              Larry the Bird{" "}
-              <span className="font-normal text-gray-400">@larry</span>
+              {username}
+              <span className="ml-2 font-normal text-gray-400">
+                @{getHandle(username)}
+              </span>
               <span className="font-normal text-gray-400"> · </span>
               <span className="font-normal text-gray-400">1h</span>
             </p>
-            <p>
-              Lorem ipsum dolor sit amet, qui minim labore adipisicing minim
-              sint cillum sint consectetur cupidatat.
-            </p>
-            <div className="my-3 flex items-center justify-between gap-4 text-gray-400">
-              <button>
+            <p>{content}</p>
+            <div className="my-2 flex items-center justify-between gap-4 text-gray-400">
+              <button
+                className="hover:text-brand hover:bg-brand/10 flex items-center gap-1 rounded-full p-1.5 transition-colors duration-300"
+                onClick={(e) => {
+                  e.preventDefault();
+                  e.stopPropagation();
+                  alert("reply");
+                }}
+              >
                 <MessageCircle size={20} className="-scale-x-100" />
+                {replies}
               </button>
-              <button>
+              <button className="hover:text-brand hover:bg-brand/10 rounded-full p-1.5 transition-colors duration-300">
                 <Repeat2 size={22} />
               </button>
-              <button>
+              <button
+                className="hover:text-brand hover:bg-brand/10 flex items-center gap-1 rounded-full p-1.5 transition-colors duration-300"
+                onClick={(e) => {
+                  e.preventDefault();
+                  e.stopPropagation();
+                  alert("like");
+                }}
+              >
                 <Heart size={18} />
+                {likes}
               </button>
-              <button>
+              <button className="hover:text-brand hover:bg-brand/10 rounded-full p-1.5 transition-colors duration-300">
                 <Share size={18} />
               </button>
             </div>
           </article>
         </div>
-      </div>
+      </Link>
       <Separator />
     </>
   );

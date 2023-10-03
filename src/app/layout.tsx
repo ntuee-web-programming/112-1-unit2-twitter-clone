@@ -28,7 +28,7 @@ export default function RootLayout({
       <body className={noto.className}>
         <div className="mx-auto flex max-w-6xl">
           <Header />
-          <main className="flex min-h-screen">
+          <main className="flex min-h-screen w-full">
             <Separator orientation="vertical" />
             {children}
             <Separator orientation="vertical" />

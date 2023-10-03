@@ -5,10 +5,10 @@ import { useEffect, useState } from "react";
 import Image from "next/image";
 import { useSearchParams } from "next/navigation";
 
-import { faker } from "@faker-js/faker";
 import { MoreHorizontal } from "lucide-react";
 
 import avatar from "@/assets/avatar.png";
+import { getHandle } from "@/lib/utils";
 
 export default function ProfileButton() {
   const [username, setUsername] = useState<null | string>(null);
@@ -16,18 +16,12 @@ export default function ProfileButton() {
   const searchParams = useSearchParams();
 
   useEffect(() => {
+    // set username and handle from search params in useEffect since this only works in the browser
     const newUsername = searchParams.get("username");
     setUsername(newUsername);
-    const [firstName, lastName] = newUsername?.split(" ") ?? [];
-    // for reproducibility
-    faker.seed(42069);
-    // generate a handle based on the username
-    setHandle(
-      faker.internet.userName({
-        firstName,
-        lastName,
-      }),
-    );
+    if (newUsername) {
+      setHandle(getHandle(newUsername));
+    }
   }, [searchParams]);
 
   return (
