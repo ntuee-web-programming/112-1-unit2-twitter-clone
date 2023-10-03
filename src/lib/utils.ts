@@ -9,7 +9,11 @@ export function cn(...inputs: ClassValue[]) {
 // user information is not maintained in this demo project
 // so we generate them from the username you enter
 
-export function getHandle(username: string) {
+export function getHandle(username?: string | null) {
+  if (!username) {
+    return "...";
+  }
+
   // seed faker with username so we get consistent results
   faker.seed(getSeed(username));
   const [firstName, lastName] = username.split(" ");
@@ -19,8 +23,8 @@ export function getHandle(username: string) {
   });
 }
 
-export function getAvatar(username: string) {
-  faker.seed(getSeed(username));
+export function getAvatar(username?: string | null) {
+  faker.seed(username ? getSeed(username) : 42069);
   return faker.internet.avatar();
 }
 

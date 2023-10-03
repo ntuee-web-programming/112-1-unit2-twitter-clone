@@ -35,14 +35,22 @@ export default function NameDialog() {
     if (username) {
       const params = new URLSearchParams(searchParams);
       params.set("username", username);
-
       router.push(`${pathname}?${params.toString()}`);
       setDialogOpen(false);
     }
   };
 
+  const handleOpenChange = (open: boolean) => {
+    if (open) {
+      setDialogOpen(true);
+    } else {
+      handleSave();
+      setDialogOpen(false);
+    }
+  };
+
   return (
-    <Dialog open={dialogOpen} onOpenChange={setDialogOpen}>
+    <Dialog open={dialogOpen} onOpenChange={handleOpenChange}>
       <DialogContent className="sm:max-w-[425px]">
         <DialogHeader>
           <DialogTitle>Welcome to Twitter!</DialogTitle>

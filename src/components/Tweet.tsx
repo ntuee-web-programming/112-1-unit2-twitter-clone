@@ -25,7 +25,10 @@ export default function Tweet({
     <>
       <Link
         className="w-full px-4 pt-3 transition-colors hover:bg-gray-50"
-        href="/"
+        href={{
+          pathname: "/tweet/id",
+          query: { username },
+        }}
       >
         <div className="flex gap-4">
           {/* eslint-disable-next-line @next/next/no-img-element */}
@@ -74,6 +77,7 @@ export default function Tweet({
                 <Share size={18} />
               </button>
             </div>
+            <Separator />
           </article>
         </div>
       </Link>
