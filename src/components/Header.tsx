@@ -13,9 +13,10 @@ import {
   Users,
 } from "lucide-react";
 
-import avatar from "@/assets/avatar.png";
 import larry from "@/assets/larry.png";
 import { cn } from "@/lib/utils";
+
+import ProfileButton from "./ProfileButton";
 
 export default function Header() {
   return (
@@ -37,20 +38,7 @@ export default function Header() {
         <HeaderButton Icon={User} text="Profile" />
         <HeaderButton Icon={MoreHorizontal} text="More" />
       </div>
-      <button className="flex items-center gap-2 rounded-full p-3 text-start transition-all duration-300 hover:bg-gray-200">
-        <Image
-          src={avatar}
-          alt="madmaxieee"
-          width={48}
-          height={48}
-          className="rounded-full"
-        />
-        <div className="w-40 max-lg:hidden">
-          <p className="text-sm font-bold">Web Programming</p>
-          <p className="text-sm text-gray-500">@ntueewp</p>
-        </div>
-        <MoreHorizontal size={24} className="max-lg:hidden" />
-      </button>
+      <ProfileButton />
     </aside>
   );
 }
@@ -68,10 +56,10 @@ type HeaderButtonProps = {
 
 function HeaderButton({ Icon, text, active }: HeaderButtonProps) {
   return (
-    <Link href="/" className="group w-full">
+    <button className="group w-full">
       <div
         // prefix a class with hover: to make it only apply when the element is hovered
-        className="flex w-fit items-center gap-4 rounded-full p-2 transition-all duration-300 group-hover:bg-gray-200 lg:pr-4"
+        className="flex w-fit items-center gap-4 rounded-full p-2 transition-colors duration-300 group-hover:bg-gray-200 lg:pr-4"
       >
         <div className="grid h-[40px] w-[40px] place-items-center">
           <Icon
@@ -92,6 +80,6 @@ function HeaderButton({ Icon, text, active }: HeaderButtonProps) {
           {text}
         </span>
       </div>
-    </Link>
+    </button>
   );
 }

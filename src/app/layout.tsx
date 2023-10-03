@@ -3,7 +3,6 @@ import { Noto_Sans } from "next/font/google";
 
 import Header from "@/components/Header";
 import { Separator } from "@/components/ui/separator";
-import { cn } from "@/lib/utils";
 
 import "./globals.css";
 
@@ -26,13 +25,15 @@ export default function RootLayout({
 }) {
   return (
     <html lang="en">
-      <body className={cn(noto.className, "mx-auto flex max-w-6xl")}>
-        <Header />
-        <main className="flex min-h-screen grow">
-          <Separator orientation="vertical" />
-          {children}
-          <Separator orientation="vertical" />
-        </main>
+      <body className={noto.className}>
+        <div className="mx-auto flex max-w-6xl">
+          <Header />
+          <main className="flex min-h-screen">
+            <Separator orientation="vertical" />
+            {children}
+            <Separator orientation="vertical" />
+          </main>
+        </div>
       </body>
     </html>
   );

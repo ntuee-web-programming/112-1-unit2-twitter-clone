@@ -4,6 +4,7 @@ import { ChevronDown } from "lucide-react";
 
 import avatar from "@/assets/avatar.png";
 import GrowingTextarea from "@/components/GrowingTextarea";
+import NameDialog from "@/components/NameDialog";
 import Tweet from "@/components/Tweet";
 import { Separator } from "@/components/ui/separator";
 
@@ -35,7 +36,7 @@ export default function Home() {
                 ></GrowingTextarea>
                 <Separator />
                 <div className="flex justify-end">
-                  <button className="bg-brand hover:bg-brand/70 my-2 rounded-full px-4 py-2 text-white transition-all">
+                  <button className="bg-brand hover:bg-brand/70 my-2 rounded-full px-4 py-2 text-white transition-colors">
                     Tweet
                   </button>
                 </div>
@@ -46,6 +47,7 @@ export default function Home() {
         </>
         <Tweet />
       </div>
+      <NameDialog />
     </>
   );
 }
