@@ -32,12 +32,6 @@
         "unnamedComponents": "arrow-function"
       }
     ],
-    "@typescript-eslint/no-non-null-assertion": "off",
-    "no-console": [
-      "warn",
-      {
-        "allow": ["warn", "error"]
-      }
-    ]
+    "@typescript-eslint/no-non-null-assertion": "off"
   }
 }
