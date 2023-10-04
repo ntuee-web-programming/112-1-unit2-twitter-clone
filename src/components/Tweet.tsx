@@ -1,47 +1,57 @@
 "use client";
 
 import Link from "next/link";
+import { useSearchParams } from "next/navigation";
+import { useRouter } from "next/router";
 
 import { MessageCircle, Repeat2, Heart, Share } from "lucide-react";
 
 import { Separator } from "@/components/ui/separator";
-import { getAvatar, getHandle } from "@/lib/utils";
+import useUserInfo from "@/hooks/useUserInfo";
+import { getAvatar } from "@/lib/utils";
 
 type TweetProps = {
-  id: string;
-  username: string;
+  id: number;
+  authorName: string;
+  authorHandle: string;
   content: string;
   likes: number;
   replies: number;
 };
 
 export default function Tweet({
-  username,
+  authorName,
+  authorHandle,
   content,
   likes,
   replies,
 }: TweetProps) {
+  const { username, handle } = useUserInfo();
+
   return (
     <>
       <Link
         className="w-full px-4 pt-3 transition-colors hover:bg-gray-50"
         href={{
           pathname: "/tweet/id",
-          query: { username },
+          query: {
+            username,
+            handle,
+          },
         }}
       >
         <div className="flex gap-4">
           {/* eslint-disable-next-line @next/next/no-img-element */}
           <img
-            src={getAvatar(username)}
+            src={getAvatar(authorName)}
             alt="avatar"
             className="h-12 w-12 rounded-full"
           />
           <article className="flex grow flex-col">
             <p className="font-bold">
-              {username}
+              {authorName}
               <span className="ml-2 font-normal text-gray-400">
-                @{getHandle(username)}
+                @{authorHandle}
               </span>
               <span className="font-normal text-gray-400"> · </span>
               <span className="font-normal text-gray-400">1h</span>

@@ -6,23 +6,6 @@ export function cn(...inputs: ClassValue[]) {
   return twMerge(clsx(inputs));
 }
 
-// user information is not maintained in this demo project
-// so we generate them from the username you enter
-
-export function getHandle(username?: string | null) {
-  if (!username) {
-    return "...";
-  }
-
-  // seed faker with username so we get consistent results
-  faker.seed(getSeed(username));
-  const [firstName, lastName] = username.split(" ");
-  return faker.internet.userName({
-    firstName,
-    lastName,
-  });
-}
-
 export function getAvatar(username?: string | null) {
   faker.seed(username ? getSeed(username) : 42069);
   return faker.internet.avatar();
@@ -35,4 +18,14 @@ function getSeed(username: string) {
     (acc, curr, i) => (acc + curr * i) % 1_000_000,
     0,
   );
+}
+
+export function validateHandle(handle?: string | null) {
+  if (!handle) return false;
+  return /^[a-z0-9\\._-]{1,25}$/.test(handle);
+}
+
+export function validateUsername(username?: string | null) {
+  if (!username) return false;
+  return /^[a-zA-Z0-9 ]{1,50}$/.test(username);
 }

@@ -1,3 +1,4 @@
+import { eq, isNull, sql } from "drizzle-orm";
 import { ChevronDown } from "lucide-react";
 
 import GrowingTextarea from "@/components/GrowingTextarea";
@@ -5,8 +6,62 @@ import NameDialog from "@/components/NameDialog";
 import Tweet from "@/components/Tweet";
 import UserAvatar from "@/components/UserAvatar";
 import { Separator } from "@/components/ui/separator";
+import { db } from "@/db";
+import { likesTable, tweetsTable, usersTable } from "@/db/schema";
 
-export default function Home() {
+type HomePageProps = {
+  searchParams: {
+    username?: string;
+    handle?: string;
+  };
+};
+
+export default async function Home({
+  searchParams: { username, handle },
+}: HomePageProps) {
+  if (username && handle) {
+    await db
+      .insert(usersTable)
+      .values({
+        displayName: username,
+        handle,
+      })
+      .onConflictDoUpdate({
+        target: usersTable.handle,
+        set: {
+          displayName: username,
+        },
+      })
+      .execute();
+  }
+
+  const likesSubquery = db.$with("likes_count").as(
+    db
+      .select({
+        tweetId: likesTable.tweetId,
+        likes: sql<number | null>`count(*)`.as("likes"),
+      })
+      .from(likesTable)
+      .groupBy(likesTable.tweetId),
+  );
+
+  const tweets = await db
+    .with(likesSubquery)
+    .select({
+      id: tweetsTable.id,
+      content: tweetsTable.content,
+      username: usersTable.displayName,
+      handle: usersTable.handle,
+      likes: likesSubquery.likes,
+    })
+    .from(tweetsTable)
+    .where(isNull(tweetsTable.replyToTweetId))
+    .innerJoin(usersTable, eq(tweetsTable.userId, usersTable.id))
+    .leftJoin(likesSubquery, eq(tweetsTable.id, likesSubquery.tweetId))
+    .execute();
+
+  console.log(tweets);
+
   return (
     <>
       <div className="flex w-full max-w-xl flex-col pt-2">
@@ -35,13 +90,17 @@ export default function Home() {
           </div>
         </div>
         <Separator />
-        <Tweet
-          username="mad max"
-          content="Lorem ipsum dolor sit amet, qui minim labore adipisicing minim sint cillum sint consectetur cupidatat."
-          id="1"
-          likes={5}
-          replies={11}
-        />
+        {tweets.map((tweet) => (
+          <Tweet
+            key={tweet.id}
+            id={tweet.id}
+            authorName={tweet.username}
+            authorHandle={tweet.handle}
+            content={tweet.content}
+            likes={tweet.likes ?? 0}
+            replies={0}
+          />
+        ))}
       </div>
       <NameDialog />
     </>

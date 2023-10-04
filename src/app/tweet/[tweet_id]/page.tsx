@@ -11,7 +11,7 @@ import {
 
 import GrowingTextarea from "@/components/GrowingTextarea";
 import { Separator } from "@/components/ui/separator";
-import { getAvatar, getHandle } from "@/lib/utils";
+import { getAvatar } from "@/lib/utils";
 
 type TweetPageProps = {
   params: {
@@ -21,12 +21,13 @@ type TweetPageProps = {
   searchParams: {
     // this came from the query string: ?username=madmaxieee
     username?: string;
+    handle?: string;
   };
 };
 
 // these two fields are always available in the props object of a page component
 export default function TweetPage({
-  searchParams: { username },
+  searchParams: { username, handle },
 }: TweetPageProps) {
   return (
     <>
@@ -35,7 +36,7 @@ export default function TweetPage({
           <Link
             href={{
               pathname: "/",
-              query: { username },
+              query: { username, handle },
             }}
           >
             <ArrowLeft size={18} />
@@ -54,10 +55,8 @@ export default function TweetPage({
                 className="h-12 w-12 rounded-full"
               />
               <div>
-                <p className="font-bold">{username}</p>
-                <p className="font-normal text-gray-500">
-                  @{getHandle(username)}
-                </p>
+                <p className="font-bold">{username ?? "..."}</p>
+                <p className="font-normal text-gray-500">@{handle ?? "..."}</p>
               </div>
             </div>
 

@@ -7,5 +7,3 @@ export const env = {
   // non-null assertion is safe here because we throw an error if it's not defined
   POSTGRES_URL: process.env.POSTGRES_URL!,
 };
-
-console.log(env);
