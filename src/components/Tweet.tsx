@@ -59,32 +59,18 @@ export default function Tweet({
                 {dayjs(createdAt).format("h:mm A · D MMM YYYY")}
               </span>
             </p>
-            <p>{content}</p>
+            <article className="mt-2 whitespace-pre-wrap">{content}</article>
             <div className="my-2 flex items-center justify-between gap-4 text-gray-400">
-              <button
-                className="hover:text-brand hover:bg-brand/10 flex items-center gap-1 rounded-full p-1.5 transition-colors duration-300"
-                onClick={(e) => {
-                  e.preventDefault();
-                  e.stopPropagation();
-                  alert("reply");
-                }}
-              >
+              <button className="hover:text-brand hover:bg-brand/10 flex items-center gap-1 rounded-full p-1.5 transition-colors duration-300">
                 <MessageCircle size={20} className="-scale-x-100" />
-                {replies}
+                {replies > 0 && replies}
               </button>
               <button className="hover:text-brand hover:bg-brand/10 rounded-full p-1.5 transition-colors duration-300">
                 <Repeat2 size={22} />
               </button>
-              <button
-                className="hover:text-brand hover:bg-brand/10 flex items-center gap-1 rounded-full p-1.5 transition-colors duration-300"
-                onClick={(e) => {
-                  e.preventDefault();
-                  e.stopPropagation();
-                  alert("like");
-                }}
-              >
+              <button className="hover:text-brand hover:bg-brand/10 flex items-center gap-1 rounded-full p-1.5 transition-colors duration-300">
                 <Heart size={18} />
-                {likes}
+                {likes > 0 && likes}
               </button>
               <button className="hover:text-brand hover:bg-brand/10 rounded-full p-1.5 transition-colors duration-300">
                 <Share size={18} />

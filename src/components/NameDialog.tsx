@@ -38,10 +38,6 @@ export default function NameDialog() {
     const username = usernameInputRef.current?.value;
     const handle = handleInputRef.current?.value;
 
-    if (!username || !handle) {
-      return false;
-    }
-
     const newUsernameError = !validateUsername(username);
     setUsernameError(newUsernameError);
     const newHandleError = !validateHandle(handle);
@@ -52,8 +48,8 @@ export default function NameDialog() {
     }
 
     const params = new URLSearchParams(searchParams);
-    params.set("username", username);
-    params.set("handle", handle);
+    params.set("username", username!);
+    params.set("handle", handle!);
     router.push(`${pathname}?${params.toString()}`);
     setDialogOpen(false);
 

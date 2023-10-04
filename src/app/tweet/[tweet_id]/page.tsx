@@ -2,7 +2,7 @@ import Link from "next/link";
 import { redirect } from "next/navigation";
 
 import dayjs from "dayjs";
-import { eq, sql } from "drizzle-orm";
+import { eq, desc, sql } from "drizzle-orm";
 import {
   ArrowLeft,
   Heart,
@@ -92,13 +92,14 @@ export default async function TweetPage({
     })
     .from(tweetsTable)
     .where(eq(tweetsTable.replyToTweetId, tweet_id_num))
+    .orderBy(desc(tweetsTable.createdAt))
     .innerJoin(usersTable, eq(tweetsTable.userHandle, usersTable.handle))
     .leftJoin(likesSubquery, eq(tweetsTable.id, likesSubquery.tweetId))
     .execute();
 
   return (
     <>
-      <div className="flex w-full max-w-xl flex-col pt-2">
+      <div className="flex h-screen w-full max-w-2xl flex-col overflow-scroll pt-2">
         <div className="mb-2 flex items-center gap-8 px-4">
           <Link href={{ pathname: "/", query: { username, handle } }}>
             <ArrowLeft size={18} />
@@ -127,7 +128,9 @@ export default async function TweetPage({
               <MoreHorizontal size={16} />
             </button>
           </div>
-          <article className="mt-3 text-xl">{tweet.content}</article>
+          <article className="mt-3 whitespace-pre-wrap text-xl">
+            {tweet.content}
+          </article>
           <time className="my-4 block text-sm text-gray-500">
             {dayjs(tweet.createdAt).format("h:mm A · D MMM YYYY")}
           </time>
