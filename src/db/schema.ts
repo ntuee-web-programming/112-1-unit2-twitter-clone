@@ -5,6 +5,7 @@ import {
   pgTable,
   serial,
   timestamp,
+  unique,
   varchar,
 } from "drizzle-orm/pg-core";
 
@@ -58,5 +59,6 @@ export const likesTable = pgTable(
   (table) => ({
     tweetIdIndex: index("tweet_id_index").on(table.tweetId),
     userHandleIndex: index("user_handle_index").on(table.userHandle),
+    uniqCombination: unique().on(table.userHandle, table.tweetId),
   }),
 );
