@@ -8,10 +8,10 @@ import useTweet from "@/hooks/useTweet";
 import useUserInfo from "@/hooks/useUserInfo";
 
 type ReplyInputProps = {
-  replyToHandle: string;
+  replyToTweetId: number;
 };
 
-export default function ReplyInput() {
+export default function ReplyInput({ replyToTweetId }: ReplyInputProps) {
   const { handle } = useUserInfo();
   const textareaRef = useRef<HTMLTextAreaElement>(null);
   const { postTweet } = useTweet();
@@ -24,7 +24,10 @@ export default function ReplyInput() {
     await postTweet({
       handle,
       content,
+      replyToTweetId,
     });
+
+    textareaRef.current.value = "";
   };
 
   return (

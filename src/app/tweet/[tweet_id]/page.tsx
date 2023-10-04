@@ -13,6 +13,7 @@ import {
 } from "lucide-react";
 
 import ReplyInput from "@/components/ReplyInput";
+import Tweet from "@/components/Tweet";
 import { Separator } from "@/components/ui/separator";
 import { db } from "@/db";
 import { likesTable, tweetsTable, usersTable } from "@/db/schema";
@@ -55,7 +56,6 @@ export default async function TweetPage({
         likes: sql<number | null>`count(*)`.as("likes"),
       })
       .from(likesTable)
-      .where(eq(likesTable.tweetId, tweet_id_num))
       .groupBy(likesTable.tweetId),
   );
 
@@ -79,6 +79,22 @@ export default async function TweetPage({
   if (!tweet) {
     errorRedirect();
   }
+
+  const replies = await db
+    .with(likesSubquery)
+    .select({
+      id: tweetsTable.id,
+      content: tweetsTable.content,
+      username: usersTable.displayName,
+      handle: usersTable.handle,
+      likes: likesSubquery.likes,
+      createdAt: tweetsTable.createdAt,
+    })
+    .from(tweetsTable)
+    .where(eq(tweetsTable.replyToTweetId, tweet_id_num))
+    .innerJoin(usersTable, eq(tweetsTable.userHandle, usersTable.handle))
+    .leftJoin(likesSubquery, eq(tweetsTable.id, likesSubquery.tweetId))
+    .execute();
 
   return (
     <>
@@ -134,8 +150,20 @@ export default async function TweetPage({
           </div>
           <Separator />
         </div>
-        <ReplyInput />
+        <ReplyInput replyToTweetId={tweet.id} />
         <Separator />
+        {replies.map((reply) => (
+          <Tweet
+            key={reply.id}
+            id={reply.id}
+            authorName={reply.username}
+            authorHandle={reply.handle}
+            content={reply.content}
+            likes={reply.likes ?? 0}
+            createdAt={reply.createdAt!}
+            replies={0}
+          />
+        ))}
       </div>
     </>
   );
