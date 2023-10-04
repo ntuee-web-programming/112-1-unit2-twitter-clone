@@ -1,4 +1,4 @@
-import { eq, isNull, sql } from "drizzle-orm";
+import { eq, desc, isNull, sql } from "drizzle-orm";
 import { ChevronDown } from "lucide-react";
 
 import GrowingTextarea from "@/components/GrowingTextarea";
@@ -53,9 +53,11 @@ export default async function Home({
       username: usersTable.displayName,
       handle: usersTable.handle,
       likes: likesSubquery.likes,
+      createdAt: tweetsTable.createdAt,
     })
     .from(tweetsTable)
     .where(isNull(tweetsTable.replyToTweetId))
+    .orderBy(desc(tweetsTable.createdAt))
     .innerJoin(usersTable, eq(tweetsTable.userId, usersTable.id))
     .leftJoin(likesSubquery, eq(tweetsTable.id, likesSubquery.tweetId))
     .execute();
@@ -98,6 +100,7 @@ export default async function Home({
             authorHandle={tweet.handle}
             content={tweet.content}
             likes={tweet.likes ?? 0}
+            createdAt={tweet.createdAt!}
             replies={0}
           />
         ))}

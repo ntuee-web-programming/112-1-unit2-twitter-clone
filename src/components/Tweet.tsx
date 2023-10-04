@@ -1,9 +1,8 @@
 "use client";
 
 import Link from "next/link";
-import { useSearchParams } from "next/navigation";
-import { useRouter } from "next/router";
 
+import dayjs from "dayjs";
 import { MessageCircle, Repeat2, Heart, Share } from "lucide-react";
 
 import { Separator } from "@/components/ui/separator";
@@ -17,14 +16,17 @@ type TweetProps = {
   content: string;
   likes: number;
   replies: number;
+  createdAt: Date;
 };
 
 export default function Tweet({
+  id,
   authorName,
   authorHandle,
   content,
   likes,
   replies,
+  createdAt,
 }: TweetProps) {
   const { username, handle } = useUserInfo();
 
@@ -33,7 +35,7 @@ export default function Tweet({
       <Link
         className="w-full px-4 pt-3 transition-colors hover:bg-gray-50"
         href={{
-          pathname: "/tweet/id",
+          pathname: `/tweet/${id}`,
           query: {
             username,
             handle,
@@ -53,8 +55,9 @@ export default function Tweet({
               <span className="ml-2 font-normal text-gray-400">
                 @{authorHandle}
               </span>
-              <span className="font-normal text-gray-400"> · </span>
-              <span className="font-normal text-gray-400">1h</span>
+              <span className="ml-2 font-normal text-gray-400">
+                {dayjs(createdAt).format("h:mm A · D MMM YYYY")}
+              </span>
             </p>
             <p>{content}</p>
             <div className="my-2 flex items-center justify-between gap-4 text-gray-400">
