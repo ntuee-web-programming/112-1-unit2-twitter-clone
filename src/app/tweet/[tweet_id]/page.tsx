@@ -12,7 +12,7 @@ import {
   Share,
 } from "lucide-react";
 
-import GrowingTextarea from "@/components/GrowingTextarea";
+import ReplyInput from "@/components/ReplyInput";
 import { Separator } from "@/components/ui/separator";
 import { db } from "@/db";
 import { likesTable, tweetsTable, usersTable } from "@/db/schema";
@@ -71,7 +71,7 @@ export default async function TweetPage({
     })
     .from(tweetsTable)
     .where(eq(tweetsTable.id, tweet_id_num))
-    .innerJoin(usersTable, eq(tweetsTable.userId, usersTable.id))
+    .innerJoin(usersTable, eq(tweetsTable.userHandle, usersTable.handle))
     .leftJoin(likesSubquery, eq(tweetsTable.id, likesSubquery.tweetId))
     .limit(1)
     .execute();
@@ -134,29 +134,7 @@ export default async function TweetPage({
           </div>
           <Separator />
         </div>
-        <div className="grid grid-cols-[fit-content(48px)_1fr] gap-4 px-4 pt-4">
-          {/* eslint-disable-next-line @next/next/no-img-element */}
-          <img
-            src={getAvatar(username)}
-            alt="user avatar"
-            width={48}
-            height={48}
-            className="col-start-1 row-start-2 h-10 w-10 rounded-full"
-          />
-          <p className="col-start-2 row-start-1 text-gray-500">
-            Replying to <span className="text-brand">@{handle}</span>
-          </p>
-          <GrowingTextarea
-            wrapperClassName="col-start-2 row-start-2"
-            className="bg-transparent text-xl outline-none placeholder:text-gray-500"
-            placeholder="Tweet your reply"
-          />
-        </div>
-        <div className="p-4 text-end">
-          <button className="bg-brand hover:bg-brand/70 rounded-full px-4 py-2 text-white transition-colors">
-            Reply
-          </button>
-        </div>
+        <ReplyInput />
         <Separator />
       </div>
     </>
