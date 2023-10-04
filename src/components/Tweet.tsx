@@ -77,7 +77,6 @@ export default function Tweet({
                 <Share size={18} />
               </button>
             </div>
-            <Separator />
           </article>
         </div>
       </Link>
