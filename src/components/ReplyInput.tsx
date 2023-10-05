@@ -6,6 +6,7 @@ import GrowingTextarea from "@/components/GrowingTextarea";
 import UserAvatar from "@/components/UserAvatar";
 import useTweet from "@/hooks/useTweet";
 import useUserInfo from "@/hooks/useUserInfo";
+import { cn } from "@/lib/utils";
 
 type ReplyInputProps = {
   replyToTweetId: number;
@@ -18,20 +19,26 @@ export default function ReplyInput({
 }: ReplyInputProps) {
   const { handle } = useUserInfo();
   const textareaRef = useRef<HTMLTextAreaElement>(null);
-  const { postTweet } = useTweet();
+  const { postTweet, loading } = useTweet();
 
   const handleReply = async () => {
     const content = textareaRef.current?.value;
     if (!content) return;
     if (!handle) return;
 
-    await postTweet({
-      handle,
-      content,
-      replyToTweetId,
-    });
-
-    textareaRef.current.value = "";
+    try {
+      await postTweet({
+        handle,
+        content,
+        replyToTweetId,
+      });
+      textareaRef.current.value = "";
+      textareaRef.current.dispatchEvent(
+        new Event("input", { bubbles: true, composed: true }),
+      );
+    } catch (e) {
+      console.error(e);
+    }
   };
 
   return (
@@ -51,8 +58,12 @@ export default function ReplyInput({
       </div>
       <div className="p-4 text-end">
         <button
-          className="bg-brand hover:bg-brand/70 rounded-full px-4 py-2 text-white transition-colors"
+          className={cn(
+            "bg-brand hover:bg-brand/70 my-2 rounded-full px-4 py-2 text-white transition-colors",
+            "disabled:bg-brand/40 disabled:hover:bg-brand/40 disabled:cursor-not-allowed",
+          )}
           onClick={handleReply}
+          disabled={loading}
         >
           Reply
         </button>

@@ -49,13 +49,20 @@ export default function LikeButton({
   return (
     <button
       className={cn(
-        "hover:text-brand hover:bg-brand/10 flex w-12 items-center gap-1 rounded-full p-1.5 transition-colors duration-300",
-        liked && "text-brand bg-brand/10",
-        loading && "animate-pulse cursor-not-allowed",
+        "hover:text-brand flex w-16 items-center gap-1",
+        liked && "text-brand",
       )}
       onClick={handleClick}
+      disabled={loading}
     >
-      <Heart size={18} />
+      <div
+        className={cn(
+          "hover:bg-brand/10 flex items-center gap-1 rounded-full p-1.5 transition-colors duration-300",
+          liked && "bg-brand/10",
+        )}
+      >
+        <Heart size={18} />
+      </div>
       {likesCount > 0 && likesCount}
     </button>
   );

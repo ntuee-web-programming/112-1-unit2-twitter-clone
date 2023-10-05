@@ -14,23 +14,23 @@ export default function useLike() {
     userHandle: string;
   }) => {
     if (loading) return;
-
     setLoading(true);
-    try {
-      await fetch("/api/likes", {
-        method: "POST",
-        body: JSON.stringify({
-          tweetId,
-          userHandle,
-        }),
-      });
-      router.refresh();
-    } catch (error) {
-      console.error(error);
-      alert("Error liking tweet");
-    } finally {
-      setLoading(false);
+
+    const res = await fetch("/api/likes", {
+      method: "POST",
+      body: JSON.stringify({
+        tweetId,
+        userHandle,
+      }),
+    });
+
+    if (!res.ok) {
+      const body = await res.json();
+      throw new Error(body.error);
     }
+
+    router.refresh();
+    setLoading(false);
   };
 
   const unlikeTweet = async ({
@@ -43,21 +43,21 @@ export default function useLike() {
     if (loading) return;
 
     setLoading(true);
-    try {
-      await fetch("/api/likes", {
-        method: "DELETE",
-        body: JSON.stringify({
-          tweetId,
-          userHandle,
-        }),
-      });
-      router.refresh();
-    } catch (error) {
-      console.error(error);
-      alert("Error unliking tweet");
-    } finally {
-      setLoading(false);
+    const res = await fetch("/api/likes", {
+      method: "DELETE",
+      body: JSON.stringify({
+        tweetId,
+        userHandle,
+      }),
+    });
+
+    if (!res.ok) {
+      const body = await res.json();
+      throw new Error(body.error);
     }
+
+    router.refresh();
+    setLoading(false);
   };
 
   return {

@@ -5,7 +5,6 @@ import dayjs from "dayjs";
 import { eq, desc, sql } from "drizzle-orm";
 import {
   ArrowLeft,
-  Heart,
   MessageCircle,
   MoreHorizontal,
   Repeat2,

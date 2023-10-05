@@ -21,10 +21,18 @@ export default function TweetInput() {
     if (!content) return;
     if (!handle) return;
 
-    await postTweet({
-      handle,
-      content,
-    });
+    try {
+      await postTweet({
+        handle,
+        content,
+      });
+      textareaRef.current.value = "";
+      textareaRef.current.dispatchEvent(
+        new Event("input", { bubbles: true, composed: true }),
+      );
+    } catch (e) {
+      console.error(e);
+    }
 
     textareaRef.current.value = "";
   };
