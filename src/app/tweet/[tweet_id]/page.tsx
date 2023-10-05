@@ -12,6 +12,7 @@ import {
   Share,
 } from "lucide-react";
 
+import LikeButton from "@/components/LikeButton";
 import ReplyInput from "@/components/ReplyInput";
 import Tweet from "@/components/Tweet";
 import { Separator } from "@/components/ui/separator";
@@ -53,14 +54,24 @@ export default async function TweetPage({
     db
       .select({
         tweetId: likesTable.tweetId,
-        likes: sql<number | null>`count(*)`.as("likes"),
+        likes: sql<number | null>`count(*)`.mapWith(Number).as("likes"),
       })
       .from(likesTable)
       .groupBy(likesTable.tweetId),
   );
 
+  const likedSubquery = db.$with("liked").as(
+    db
+      .select({
+        tweetId: likesTable.tweetId,
+        liked: sql<number>`1`.mapWith(Boolean).as("liked"),
+      })
+      .from(likesTable)
+      .where(eq(likesTable.userHandle, handle ?? "")),
+  );
+
   const [tweet] = await db
-    .with(likesSubquery)
+    .with(likesSubquery, likedSubquery)
     .select({
       id: tweetsTable.id,
       content: tweetsTable.content,
@@ -68,11 +79,13 @@ export default async function TweetPage({
       handle: usersTable.handle,
       likes: likesSubquery.likes,
       createdAt: tweetsTable.createdAt,
+      liked: likedSubquery.liked,
     })
     .from(tweetsTable)
     .where(eq(tweetsTable.id, tweet_id_num))
     .innerJoin(usersTable, eq(tweetsTable.userHandle, usersTable.handle))
     .leftJoin(likesSubquery, eq(tweetsTable.id, likesSubquery.tweetId))
+    .leftJoin(likedSubquery, eq(tweetsTable.id, likedSubquery.tweetId))
     .limit(1)
     .execute();
 
@@ -81,7 +94,7 @@ export default async function TweetPage({
   }
 
   const replies = await db
-    .with(likesSubquery)
+    .with(likesSubquery, likedSubquery)
     .select({
       id: tweetsTable.id,
       content: tweetsTable.content,
@@ -89,12 +102,14 @@ export default async function TweetPage({
       handle: usersTable.handle,
       likes: likesSubquery.likes,
       createdAt: tweetsTable.createdAt,
+      liked: likedSubquery.liked,
     })
     .from(tweetsTable)
     .where(eq(tweetsTable.replyToTweetId, tweet_id_num))
     .orderBy(desc(tweetsTable.createdAt))
     .innerJoin(usersTable, eq(tweetsTable.userHandle, usersTable.handle))
     .leftJoin(likesSubquery, eq(tweetsTable.id, likesSubquery.tweetId))
+    .leftJoin(likedSubquery, eq(tweetsTable.id, likedSubquery.tweetId))
     .execute();
 
   return (
@@ -136,35 +151,38 @@ export default async function TweetPage({
           </time>
           <Separator />
           <div className="my-2 flex items-center justify-between gap-4 text-gray-400">
-            <button className="hover:text-brand hover:bg-brand/10 flex items-center gap-1 rounded-full p-1.5 transition-colors duration-300">
+            <button className="hover:text-brand hover:bg-brand/10 rounded-full p-1.5 transition-colors duration-300">
               <MessageCircle size={20} className="-scale-x-100" />
-              {5}
             </button>
             <button className="hover:text-brand hover:bg-brand/10 rounded-full p-1.5 transition-colors duration-300">
               <Repeat2 size={22} />
             </button>
-            <button className="hover:text-brand hover:bg-brand/10 flex items-center gap-1 rounded-full p-1.5 transition-colors duration-300">
-              <Heart size={18} />
-              {tweet.likes}
-            </button>
+            <LikeButton
+              handle={handle}
+              initialLikes={tweet.likes}
+              initialLiked={tweet.liked}
+              tweetId={tweet.id}
+            />
             <button className="hover:text-brand hover:bg-brand/10 rounded-full p-1.5 transition-colors duration-300">
               <Share size={18} />
             </button>
           </div>
           <Separator />
         </div>
-        <ReplyInput replyToTweetId={tweet.id} />
+        <ReplyInput replyToTweetId={tweet.id} replyToHandle={tweet.handle} />
         <Separator />
         {replies.map((reply) => (
           <Tweet
             key={reply.id}
             id={reply.id}
+            username={username}
+            handle={handle}
             authorName={reply.username}
             authorHandle={reply.handle}
             content={reply.content}
-            likes={reply.likes ?? 0}
+            likes={reply.likes}
+            liked={reply.liked}
             createdAt={reply.createdAt!}
-            replies={0}
           />
         ))}
       </div>

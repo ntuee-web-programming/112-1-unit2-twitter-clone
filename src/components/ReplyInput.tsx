@@ -9,9 +9,13 @@ import useUserInfo from "@/hooks/useUserInfo";
 
 type ReplyInputProps = {
   replyToTweetId: number;
+  replyToHandle: string;
 };
 
-export default function ReplyInput({ replyToTweetId }: ReplyInputProps) {
+export default function ReplyInput({
+  replyToTweetId,
+  replyToHandle,
+}: ReplyInputProps) {
   const { handle } = useUserInfo();
   const textareaRef = useRef<HTMLTextAreaElement>(null);
   const { postTweet } = useTweet();
@@ -36,7 +40,7 @@ export default function ReplyInput({ replyToTweetId }: ReplyInputProps) {
         {/* eslint-disable-next-line @next/next/no-img-element */}
         <UserAvatar className="col-start-1 row-start-2 h-12 w-12" />
         <p className="col-start-2 row-start-1 text-gray-500">
-          Replying to <span className="text-brand">@{handle}</span>
+          Replying to <span className="text-brand">@{replyToHandle}</span>
         </p>
         <GrowingTextarea
           ref={textareaRef}

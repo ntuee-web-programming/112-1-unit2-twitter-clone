@@ -1,35 +1,36 @@
-"use client";
-
 import Link from "next/link";
 
 import dayjs from "dayjs";
-import { MessageCircle, Repeat2, Heart, Share } from "lucide-react";
+import { MessageCircle, Repeat2, Share } from "lucide-react";
 
 import { Separator } from "@/components/ui/separator";
-import useUserInfo from "@/hooks/useUserInfo";
 import { getAvatar } from "@/lib/utils";
 
+import LikeButton from "./LikeButton";
+
 type TweetProps = {
+  username?: string;
+  handle?: string;
   id: number;
   authorName: string;
   authorHandle: string;
   content: string;
   likes: number;
-  replies: number;
   createdAt: Date;
+  liked?: boolean;
 };
 
 export default function Tweet({
+  username,
+  handle,
   id,
   authorName,
   authorHandle,
   content,
   likes,
-  replies,
   createdAt,
+  liked,
 }: TweetProps) {
-  const { username, handle } = useUserInfo();
-
   return (
     <>
       <Link
@@ -61,17 +62,18 @@ export default function Tweet({
             </p>
             <article className="mt-2 whitespace-pre-wrap">{content}</article>
             <div className="my-2 flex items-center justify-between gap-4 text-gray-400">
-              <button className="hover:text-brand hover:bg-brand/10 flex items-center gap-1 rounded-full p-1.5 transition-colors duration-300">
+              <button className="hover:text-brand hover:bg-brand/10 rounded-full p-1.5 transition-colors duration-300">
                 <MessageCircle size={20} className="-scale-x-100" />
-                {replies > 0 && replies}
               </button>
               <button className="hover:text-brand hover:bg-brand/10 rounded-full p-1.5 transition-colors duration-300">
                 <Repeat2 size={22} />
               </button>
-              <button className="hover:text-brand hover:bg-brand/10 flex items-center gap-1 rounded-full p-1.5 transition-colors duration-300">
-                <Heart size={18} />
-                {likes > 0 && likes}
-              </button>
+              <LikeButton
+                initialLikes={likes}
+                initialLiked={liked}
+                tweetId={id}
+                handle={handle}
+              />
               <button className="hover:text-brand hover:bg-brand/10 rounded-full p-1.5 transition-colors duration-300">
                 <Share size={18} />
               </button>

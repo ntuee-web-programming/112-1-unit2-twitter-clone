@@ -37,14 +37,24 @@ export default async function Home({
     db
       .select({
         tweetId: likesTable.tweetId,
-        likes: sql<number | null>`count(*)`.as("likes"),
+        likes: sql<number | null>`count(*)`.mapWith(Number).as("likes"),
       })
       .from(likesTable)
       .groupBy(likesTable.tweetId),
   );
 
+  const likedSubquery = db.$with("liked").as(
+    db
+      .select({
+        tweetId: likesTable.tweetId,
+        liked: sql<number>`1`.mapWith(Boolean).as("liked"),
+      })
+      .from(likesTable)
+      .where(eq(likesTable.userHandle, handle ?? "")),
+  );
+
   const tweets = await db
-    .with(likesSubquery)
+    .with(likesSubquery, likedSubquery)
     .select({
       id: tweetsTable.id,
       content: tweetsTable.content,
@@ -52,12 +62,14 @@ export default async function Home({
       handle: usersTable.handle,
       likes: likesSubquery.likes,
       createdAt: tweetsTable.createdAt,
+      liked: likedSubquery.liked,
     })
     .from(tweetsTable)
     .where(isNull(tweetsTable.replyToTweetId))
     .orderBy(desc(tweetsTable.createdAt))
     .innerJoin(usersTable, eq(tweetsTable.userHandle, usersTable.handle))
     .leftJoin(likesSubquery, eq(tweetsTable.id, likesSubquery.tweetId))
+    .leftJoin(likedSubquery, eq(tweetsTable.id, likedSubquery.tweetId))
     .execute();
 
   return (
@@ -72,12 +84,14 @@ export default async function Home({
           <Tweet
             key={tweet.id}
             id={tweet.id}
+            username={username}
+            handle={handle}
             authorName={tweet.username}
             authorHandle={tweet.handle}
             content={tweet.content}
-            likes={tweet.likes ?? 0}
+            likes={tweet.likes}
+            liked={tweet.liked}
             createdAt={tweet.createdAt!}
-            replies={0}
           />
         ))}
       </div>

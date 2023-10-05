@@ -73,3 +73,34 @@ export async function POST(request: NextRequest) {
 
   return new NextResponse("OK", { status: 200 });
 }
+
+export async function DELETE(request: NextRequest) {
+  const data = await request.json();
+
+  try {
+    likeTweetRequestSchema.parse(data);
+  } catch (error) {
+    return NextResponse.json({ error: "Invalid request" }, { status: 400 });
+  }
+
+  const { tweetId, userHandle } = data as LikeTweetRequest;
+
+  try {
+    await db
+      .delete(likesTable)
+      .where(
+        and(
+          eq(likesTable.tweetId, tweetId),
+          eq(likesTable.userHandle, userHandle),
+        ),
+      )
+      .execute();
+  } catch (error) {
+    return NextResponse.json(
+      { error: "Something went wrong" },
+      { status: 500 },
+    );
+  }
+
+  return new NextResponse("OK", { status: 200 });
+}
