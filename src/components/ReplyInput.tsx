@@ -38,6 +38,7 @@ export default function ReplyInput({
       );
     } catch (e) {
       console.error(e);
+      alert("Error posting reply");
     }
   };
 

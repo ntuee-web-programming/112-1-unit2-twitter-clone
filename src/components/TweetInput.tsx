@@ -32,9 +32,8 @@ export default function TweetInput() {
       );
     } catch (e) {
       console.error(e);
+      alert("Error posting tweet");
     }
-
-    textareaRef.current.value = "";
   };
 
   return (
