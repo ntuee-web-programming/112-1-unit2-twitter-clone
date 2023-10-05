@@ -33,6 +33,9 @@ export default function ReplyInput({
         replyToTweetId,
       });
       textareaRef.current.value = "";
+      // this triggers the onInput event on the growing textarea
+      // thus triggering the resize
+      // for more info, see: https://developer.mozilla.org/en-US/docs/Web/API/Event
       textareaRef.current.dispatchEvent(
         new Event("input", { bubbles: true, composed: true }),
       );
@@ -60,8 +63,8 @@ export default function ReplyInput({
       <div className="p-4 text-end">
         <button
           className={cn(
-            "bg-brand hover:bg-brand/70 my-2 rounded-full px-4 py-2 text-white transition-colors",
-            "disabled:bg-brand/40 disabled:hover:bg-brand/40 disabled:cursor-not-allowed",
+            "my-2 rounded-full bg-brand px-4 py-2 text-white transition-colors hover:bg-brand/70",
+            "disabled:cursor-not-allowed disabled:bg-brand/40 disabled:hover:bg-brand/40",
           )}
           onClick={handleReply}
           disabled={loading}

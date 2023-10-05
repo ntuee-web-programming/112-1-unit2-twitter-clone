@@ -27,6 +27,9 @@ export default function TweetInput() {
         content,
       });
       textareaRef.current.value = "";
+      // this triggers the onInput event on the growing textarea
+      // thus triggering the resize
+      // for more info, see: https://developer.mozilla.org/en-US/docs/Web/API/Event
       textareaRef.current.dispatchEvent(
         new Event("input", { bubbles: true, composed: true }),
       );
@@ -40,7 +43,7 @@ export default function TweetInput() {
     <div className="flex gap-4" onClick={() => textareaRef.current?.focus()}>
       <UserAvatar className="h-12 w-12" />
       <div className="flex w-full flex-col px-2">
-        <button className="text-brand flex w-fit items-center rounded-full border-[1px] border-gray-300 px-2 text-sm font-bold">
+        <button className="flex w-fit items-center rounded-full border-[1px] border-gray-300 px-2 text-sm font-bold text-brand">
           Everyone
           <ChevronDown size={16} className="text-gray-300" />
         </button>
@@ -55,8 +58,8 @@ export default function TweetInput() {
         <div className="flex justify-end">
           <button
             className={cn(
-              "bg-brand hover:bg-brand/70 my-2 rounded-full px-4 py-2 text-white transition-colors",
-              "disabled:bg-brand/40 disabled:hover:bg-brand/40 disabled:cursor-not-allowed",
+              "my-2 rounded-full bg-brand px-4 py-2 text-white transition-colors hover:bg-brand/70",
+              "disabled:cursor-not-allowed disabled:bg-brand/40 disabled:hover:bg-brand/40",
             )}
             onClick={handleTweet}
             disabled={loading}

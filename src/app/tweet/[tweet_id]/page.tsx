@@ -2,7 +2,7 @@ import Link from "next/link";
 import { redirect } from "next/navigation";
 
 import dayjs from "dayjs";
-import { eq, desc, sql } from "drizzle-orm";
+import { eq, desc, sql, and } from "drizzle-orm";
 import {
   ArrowLeft,
   MessageCircle,
@@ -49,6 +49,73 @@ export default async function TweetPage({
     errorRedirect();
   }
 
+  // This is the easiest way to get the tweet data
+  // you can run separate queries for the tweet data, likes, and liked
+  // and then combine them in javascript.
+  //
+  // This gets things done for now, but it's not the best way to do it
+  // relational databases are highly optimized for this kind of thing
+  // we should always try to do as much as possible in the database.
+
+  const [tweetData] = await db
+    .select({
+      id: tweetsTable.id,
+      content: tweetsTable.content,
+      userHandle: tweetsTable.userHandle,
+      createdAt: tweetsTable.createdAt,
+    })
+    .from(tweetsTable)
+    .where(eq(tweetsTable.id, tweet_id_num))
+    .execute();
+
+  if (!tweetData) {
+    errorRedirect();
+  }
+
+  const likes = await db
+    .select({
+      id: likesTable.id,
+    })
+    .from(likesTable)
+    .where(eq(likesTable.tweetId, tweet_id_num))
+    .execute();
+
+  const numLikes = likes.length;
+
+  const [liked] = await db
+    .select({
+      id: likesTable.id,
+    })
+    .from(likesTable)
+    .where(
+      and(
+        eq(likesTable.tweetId, tweet_id_num),
+        eq(likesTable.userHandle, handle ?? ""),
+      ),
+    )
+    .execute();
+
+  const [user] = await db
+    .select({
+      displayName: usersTable.displayName,
+      handle: usersTable.handle,
+    })
+    .from(usersTable)
+    .where(eq(usersTable.handle, tweetData.userHandle))
+    .execute();
+
+  const tweet = {
+    id: tweetData.id,
+    content: tweetData.content,
+    username: user.displayName,
+    handle: user.handle,
+    likes: numLikes,
+    createdAt: tweetData.createdAt,
+    liked: Boolean(liked),
+  };
+
+  // The following code is almost identical to the code in src/app/page.tsx
+  // read the comments there for more info.
   const likesSubquery = db.$with("likes_count").as(
     db
       .select({
@@ -68,29 +135,6 @@ export default async function TweetPage({
       .from(likesTable)
       .where(eq(likesTable.userHandle, handle ?? "")),
   );
-
-  const [tweet] = await db
-    .with(likesSubquery, likedSubquery)
-    .select({
-      id: tweetsTable.id,
-      content: tweetsTable.content,
-      username: usersTable.displayName,
-      handle: usersTable.handle,
-      likes: likesSubquery.likes,
-      createdAt: tweetsTable.createdAt,
-      liked: likedSubquery.liked,
-    })
-    .from(tweetsTable)
-    .where(eq(tweetsTable.id, tweet_id_num))
-    .innerJoin(usersTable, eq(tweetsTable.userHandle, usersTable.handle))
-    .leftJoin(likesSubquery, eq(tweetsTable.id, likesSubquery.tweetId))
-    .leftJoin(likedSubquery, eq(tweetsTable.id, likedSubquery.tweetId))
-    .limit(1)
-    .execute();
-
-  if (!tweet) {
-    errorRedirect();
-  }
 
   const replies = await db
     .with(likesSubquery, likedSubquery)
@@ -138,7 +182,7 @@ export default async function TweetPage({
                 </p>
               </div>
             </div>
-            <button className="hover:text-brand hover:bg-brand/10 h-fit rounded-full p-2.5 text-gray-400 transition-colors duration-300">
+            <button className="h-fit rounded-full p-2.5 text-gray-400 transition-colors duration-300 hover:bg-brand/10 hover:text-brand">
               <MoreHorizontal size={16} />
             </button>
           </div>
@@ -146,14 +190,16 @@ export default async function TweetPage({
             {tweet.content}
           </article>
           <time className="my-4 block text-sm text-gray-500">
+            {/* dayjs is a great library for working with dates in javascript */}
+            {/* we use it to format the date in a nice way */}
             {dayjs(tweet.createdAt).format("h:mm A · D MMM YYYY")}
           </time>
           <Separator />
           <div className="my-2 flex items-center justify-between gap-4 text-gray-400">
-            <button className="hover:text-brand hover:bg-brand/10 rounded-full p-1.5 transition-colors duration-300">
+            <button className="rounded-full p-1.5 transition-colors duration-300 hover:bg-brand/10 hover:text-brand">
               <MessageCircle size={20} className="-scale-x-100" />
             </button>
-            <button className="hover:text-brand hover:bg-brand/10 rounded-full p-1.5 transition-colors duration-300">
+            <button className="rounded-full p-1.5 transition-colors duration-300 hover:bg-brand/10 hover:text-brand">
               <Repeat2 size={22} />
             </button>
             <LikeButton
@@ -162,7 +208,7 @@ export default async function TweetPage({
               initialLiked={tweet.liked}
               tweetId={tweet.id}
             />
-            <button className="hover:text-brand hover:bg-brand/10 rounded-full p-1.5 transition-colors duration-300">
+            <button className="rounded-full p-1.5 transition-colors duration-300 hover:bg-brand/10 hover:text-brand">
               <Share size={18} />
             </button>
           </div>
