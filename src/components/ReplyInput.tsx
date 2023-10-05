@@ -42,7 +42,7 @@ export default function ReplyInput({
   };
 
   return (
-    <div>
+    <div onClick={() => textareaRef.current?.focus()}>
       <div className="grid grid-cols-[fit-content(48px)_1fr] gap-4 px-4 pt-4">
         {/* eslint-disable-next-line @next/next/no-img-element */}
         <UserAvatar className="col-start-1 row-start-2 h-12 w-12" />

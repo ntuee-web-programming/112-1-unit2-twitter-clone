@@ -38,7 +38,7 @@ export default function TweetInput() {
   };
 
   return (
-    <div className="flex gap-4">
+    <div className="flex gap-4" onClick={() => textareaRef.current?.focus()}>
       <UserAvatar className="h-12 w-12" />
       <div className="flex w-full flex-col px-2">
         <button className="text-brand flex w-fit items-center rounded-full border-[1px] border-gray-300 px-2 text-sm font-bold">
