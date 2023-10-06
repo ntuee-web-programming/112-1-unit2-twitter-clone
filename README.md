@@ -63,3 +63,27 @@ yarn create next-app
    If you want to use [neon](https://neon.tech/)'s serverless postgresql, follow the instructions [here](https://orm.drizzle.team/docs/quick-postgresql/neon)
 
 3. Copy paste other config files as needed
+
+## Other tips and tricks
+
+### VSCode
+
+When navigating more complex codebases, it's useful to leverage your editor's functionality.
+
+- `cmd + click` on a symbol (variable name, function name...) to jump to its definition
+- `cmd + shift + f` to search for a string in the entire project
+- `cmd + shift + o` to search for a symbol in the current file
+- `cmd + p` to search for a file
+- right click on a symbol and select "Find all references" to find all places where the symbol is used
+- right click on a symbol and select "Rename symbol" to rename the symbol
+- hover click on the chevron next to line number to fold code segments or comment segments
+
+Many web dev tools provides vscode plugins to make your life easier, here are some of the essential ones:
+
+- eslint: show eslint errors and warnings inline
+- tailwindcss: auto completes tailwind classes, hover tailwind classes to see corresponding css code
+- prettier: work with the format document command to format your code
+
+### Nvim
+
+If you are using neovim you probably know what you are doing, check out my neovim config repo [here](https://github.com/madmaxieee/nvim)
