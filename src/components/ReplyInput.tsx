@@ -46,6 +46,8 @@ export default function ReplyInput({
   };
 
   return (
+    // this allows us to focus (put the cursor in) the textarea when the user
+    // clicks anywhere on the div
     <div onClick={() => textareaRef.current?.focus()}>
       <div className="grid grid-cols-[fit-content(48px)_1fr] gap-4 px-4 pt-4">
         {/* eslint-disable-next-line @next/next/no-img-element */}

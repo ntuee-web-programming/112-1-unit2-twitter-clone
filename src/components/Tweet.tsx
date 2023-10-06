@@ -20,6 +20,8 @@ type TweetProps = {
   liked?: boolean;
 };
 
+// note that the Tweet component is also a server component
+// all client side things are abstracted away in other components
 export default function Tweet({
   username,
   handle,
@@ -60,12 +62,13 @@ export default function Tweet({
                 {dayjs(createdAt).format("h:mm A · D MMM YYYY")}
               </span>
             </p>
+            {/* `white-space: pre-wrap` tells html to render \n and \t chracters  */}
             <article className="mt-2 whitespace-pre-wrap">{content}</article>
             <div className="my-2 flex items-center justify-between gap-4 text-gray-400">
-              <button className="hover:text-brand hover:bg-brand/10 rounded-full p-1.5 transition-colors duration-300">
+              <button className="rounded-full p-1.5 transition-colors duration-300 hover:bg-brand/10 hover:text-brand">
                 <MessageCircle size={20} className="-scale-x-100" />
               </button>
-              <button className="hover:text-brand hover:bg-brand/10 rounded-full p-1.5 transition-colors duration-300">
+              <button className="rounded-full p-1.5 transition-colors duration-300 hover:bg-brand/10 hover:text-brand">
                 <Repeat2 size={22} />
               </button>
               <LikeButton
@@ -74,7 +77,7 @@ export default function Tweet({
                 tweetId={id}
                 handle={handle}
               />
-              <button className="hover:text-brand hover:bg-brand/10 rounded-full p-1.5 transition-colors duration-300">
+              <button className="rounded-full p-1.5 transition-colors duration-300 hover:bg-brand/10 hover:text-brand">
                 <Share size={18} />
               </button>
             </div>

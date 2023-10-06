@@ -57,6 +57,14 @@ export default async function TweetPage({
   // relational databases are highly optimized for this kind of thing
   // we should always try to do as much as possible in the database.
 
+  // This piece of code runs the following SQL query on the tweets table:
+  // SELECT
+  //   id,
+  //   content,
+  //   user_handle,
+  //   created_at
+  //   FROM tweets
+  //   WHERE id = {tweet_id_num};
   const [tweetData] = await db
     .select({
       id: tweetsTable.id,
@@ -68,10 +76,23 @@ export default async function TweetPage({
     .where(eq(tweetsTable.id, tweet_id_num))
     .execute();
 
+  // Although typescript thinks tweetData is not undefined, it is possible
+  // that tweetData is undefined. This can happen if the tweet doesn't exist.
+  // Thus the destructuring assignment above is not safe. We need to check
+  // if tweetData is undefined before using it.
   if (!tweetData) {
     errorRedirect();
   }
 
+  // This piece of code runs the following SQL query on the tweets table:
+  // SELECT
+  //  id,
+  //  FROM likes
+  //  WHERE tweet_id = {tweet_id_num};
+  // Since we only need the number of likes, we don't actually need to select
+  // the id here, we can select a constant 1 instead. Or even better, we can
+  // use the count aggregate function to count the number of rows in the table.
+  // This is what we do in the next code block in likesSubquery.
   const likes = await db
     .select({
       id: likesTable.id,

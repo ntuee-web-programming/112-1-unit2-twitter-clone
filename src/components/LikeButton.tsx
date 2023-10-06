@@ -26,6 +26,10 @@ export default function LikeButton({
   const { likeTweet, unlikeTweet, loading } = useLike();
 
   const handleClick: EventHandler<MouseEvent> = async (e) => {
+    // since the parent node of the button is a Link, when we click on the
+    // button, the Link will also be clicked, which will cause the page to
+    // navigate to the tweet page, which is not what we want. So we stop the
+    // event propagation and prevent the default behavior of the event.
     e.stopPropagation();
     e.preventDefault();
     if (!handle) return;
@@ -49,7 +53,7 @@ export default function LikeButton({
   return (
     <button
       className={cn(
-        "hover:text-brand flex w-16 items-center gap-1",
+        "flex w-16 items-center gap-1 hover:text-brand",
         liked && "text-brand",
       )}
       onClick={handleClick}
@@ -57,7 +61,7 @@ export default function LikeButton({
     >
       <div
         className={cn(
-          "hover:bg-brand/10 flex items-center gap-1 rounded-full p-1.5 transition-colors duration-300",
+          "flex items-center gap-1 rounded-full p-1.5 transition-colors duration-300 hover:bg-brand/10",
           liked && "bg-brand/10",
         )}
       >

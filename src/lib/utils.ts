@@ -2,10 +2,12 @@ import { faker } from "@faker-js/faker";
 import { type ClassValue, clsx } from "clsx";
 import { twMerge } from "tailwind-merge";
 
+// this utility function is used to merge tailwind classes safely
 export function cn(...inputs: ClassValue[]) {
   return twMerge(clsx(inputs));
 }
 
+// generate a random avatar for a user
 export function getAvatar(username?: string | null) {
   faker.seed(username ? getSeed(username) : 42069);
   return faker.internet.avatar();
