@@ -13,7 +13,7 @@ If you have any questions about this repo, feel free to open an issue on this re
 yarn install
 ```
 
-3. Create a `.env.local` file in the root of the project and add a valid postgres url. To get a posgresql url, follow the instructions [here](https://ric2k1.notion.site/Free-postgresql-tutorial-f99605d5c5104acc99b9edf9ab649199?pvs=4).
+3. Create a `.env.local` file in the root of the project and add a valid Postgres URL. To get a Postgres URL, follow the instructions [here](https://ric2k1.notion.site/Free-postgresql-tutorial-f99605d5c5104acc99b9edf9ab649199?pvs=4).
 
 ```bash
 POSTGRES_URL="postgres://postgres:postgres@localhost:5432/twitter"
@@ -60,9 +60,9 @@ yarn create next-app
 ```
 
 2. Follow the instructions [here](https://orm.drizzle.team/docs/quick-postgresql/node-postgres) to setup drizzle
-   If you want to use [neon](https://neon.tech/)'s serverless postgresql, follow the instructions [here](https://orm.drizzle.team/docs/quick-postgresql/neon)
+   If you want to use [neon](https://neon.tech/)'s serverless Postgresql, follow the instructions [here](https://orm.drizzle.team/docs/quick-postgresql/neon)
 
-3. Copy paste other config files as needed
+3. Copy and paste other config files as needed
 
 ## Other tips and tricks
 
@@ -76,12 +76,12 @@ When navigating more complex codebases, it's useful to leverage your editor's fu
 - `cmd + p` to search for a file
 - right click on a symbol and select "Find all references" to find all places where the symbol is used
 - right click on a symbol and select "Rename symbol" to rename the symbol
-- hover click on the chevron next to line number to fold code segments or comment segments
+- hover and click on the chevron next to the line number to fold code segments or comment segments
 
-Many web dev tools provides vscode plugins to make your life easier, here are some of the essential ones:
+Many web dev tools provide vscode plugins to make your life easier, here are some of the essential ones:
 
 - eslint: show eslint errors and warnings inline
-- tailwindcss: auto completes tailwind classes, hover tailwind classes to see corresponding css code
+- tailwindcss: auto-completes tailwind classes, hover tailwind classes to see corresponding css code
 - prettier: work with the format document command to format your code
 
 ### Nvim
