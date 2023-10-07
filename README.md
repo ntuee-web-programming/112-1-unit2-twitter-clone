@@ -87,3 +87,9 @@ Many web dev tools provide vscode plugins to make your life easier, here are som
 ### Nvim
 
 If you are using neovim you probably know what you are doing, check out my neovim config repo [here](https://github.com/madmaxieee/nvim)
+
+## Other resources
+
+- [React Server Components: A Comprehensive Breakdown](https://www.youtube.com/watch?v=VIwWgV3Lc6s)
+- [I didn't realize THIS about Tailwind...](https://www.youtube.com/watch?v=ZuLn42merAg)
+- [I WISH I Knew These Tailwind Tips Earlier](https://www.youtube.com/watch?v=QBajvZaWLXs)
