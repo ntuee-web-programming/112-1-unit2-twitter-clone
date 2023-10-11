@@ -93,3 +93,6 @@ If you are using neovim you probably know what you are doing, check out my neovi
 - [React Server Components: A Comprehensive Breakdown](https://www.youtube.com/watch?v=VIwWgV3Lc6s)
 - [I didn't realize THIS about Tailwind...](https://www.youtube.com/watch?v=ZuLn42merAg)
 - [I WISH I Knew These Tailwind Tips Earlier](https://www.youtube.com/watch?v=QBajvZaWLXs)
+- [MySQL for developers](https://planetscale.com/learn/courses/mysql-for-developers/introduction/course-introduction)
+  - although we are using Postgres, most of the concepts are the same
+  - refer to postgres docs and drizzle docs about postgres specific syntax
