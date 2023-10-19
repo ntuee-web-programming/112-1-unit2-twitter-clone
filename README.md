@@ -59,8 +59,7 @@ yarn drizzle-kit studio
 yarn create next-app
 ```
 
-2. Follow the instructions [here](https://orm.drizzle.team/docs/quick-postgresql/node-postgres) to setup drizzle
-   If you want to use [neon](https://neon.tech/)'s serverless Postgresql, follow the instructions [here](https://orm.drizzle.team/docs/quick-postgresql/neon)
+2. Follow the instructions [here](https://orm.drizzle.team/docs/quick-postgresql/node-postgres) to setup drizzle. If you want to use [neon](https://neon.tech/)'s serverless PostgreSQL feature, follow the instructions [here](https://orm.drizzle.team/docs/quick-postgresql/neon) (you can still use database URL to connect to neon's database like a regular PostgreSQL database).
 
 3. Copy and paste other config files as needed
 
@@ -94,5 +93,6 @@ If you are using neovim you probably know what you are doing, check out my neovi
 - [I didn't realize THIS about Tailwind...](https://www.youtube.com/watch?v=ZuLn42merAg)
 - [I WISH I Knew These Tailwind Tips Earlier](https://www.youtube.com/watch?v=QBajvZaWLXs)
 - [MySQL for developers](https://planetscale.com/learn/courses/mysql-for-developers/introduction/course-introduction)
+  - very good course on relational databases, please watch it if you have time
   - although we are using Postgres, most of the concepts are the same
   - refer to postgres docs and drizzle docs about postgres specific syntax
