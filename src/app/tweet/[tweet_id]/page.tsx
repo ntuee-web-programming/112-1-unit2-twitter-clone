@@ -1,7 +1,6 @@
 import Link from "next/link";
 import { redirect } from "next/navigation";
 
-import dayjs from "dayjs";
 import { eq, desc, sql, and } from "drizzle-orm";
 import {
   ArrowLeft,
@@ -13,6 +12,7 @@ import {
 
 import LikeButton from "@/components/LikeButton";
 import ReplyInput from "@/components/ReplyInput";
+import TimeText from "@/components/TimeText";
 import Tweet from "@/components/Tweet";
 import { Separator } from "@/components/ui/separator";
 import { db } from "@/db";
@@ -211,9 +211,7 @@ export default async function TweetPage({
             {tweet.content}
           </article>
           <time className="my-4 block text-sm text-gray-500">
-            {/* dayjs is a great library for working with dates in javascript */}
-            {/* we use it to format the date in a nice way */}
-            {dayjs(tweet.createdAt).format("h:mm A · D MMM YYYY")}
+            <TimeText date={tweet.createdAt} format="h:mm A · D MMM YYYY" />
           </time>
           <Separator />
           <div className="my-2 flex items-center justify-between gap-4 text-gray-400">

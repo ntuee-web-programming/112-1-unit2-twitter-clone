@@ -1,12 +1,12 @@
 import Link from "next/link";
 
-import dayjs from "dayjs";
 import { MessageCircle, Repeat2, Share } from "lucide-react";
 
 import { Separator } from "@/components/ui/separator";
 import { getAvatar } from "@/lib/utils";
 
 import LikeButton from "./LikeButton";
+import TimeText from "./TimeText";
 
 type TweetProps = {
   username?: string;
@@ -58,9 +58,9 @@ export default function Tweet({
               <span className="ml-2 font-normal text-gray-400">
                 @{authorHandle}
               </span>
-              <span className="ml-2 font-normal text-gray-400">
-                {dayjs(createdAt).format("h:mm A · D MMM YYYY")}
-              </span>
+              <time className="ml-2 font-normal text-gray-400">
+                <TimeText date={createdAt} format="h:mm A · D MMM YYYY" />
+              </time>
             </p>
             {/* `white-space: pre-wrap` tells html to render \n and \t chracters  */}
             <article className="mt-2 whitespace-pre-wrap">{content}</article>
