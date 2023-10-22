@@ -12,6 +12,10 @@ import "./globals.css";
 // https://nextjs.org/docs/app/building-your-application/optimizing/fonts#google-fonts
 const noto = Noto_Sans({
   subsets: ["latin-ext"],
+  // We can specify the font weights with numbers or names
+  // 400 corresponds to "regular" and 700 corresponds to "bold".
+  // This setting specifies that we only want to load the regular and bold weights
+  // so we don't load the whole font family.
   weight: ["400", "700"],
   // we can reference the font in our css using the name we provided here
   variable: "--noto-sans",
