@@ -18,6 +18,7 @@ const noto = Noto_Sans({
 });
 
 // nextjs provides a way to set metadata for the page
+// the exported metadata object is used by nextjs to set the page metadata
 // read more about metadata helpers in nextjs here:
 // https://nextjs.org/docs/app/building-your-application/optimizing/metadata
 export const metadata: Metadata = {

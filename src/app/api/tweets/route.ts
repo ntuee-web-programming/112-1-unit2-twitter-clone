@@ -30,14 +30,16 @@ export async function POST(request: NextRequest) {
 
   try {
     // parse will throw an error if the data doesn't match the schema
-    // if that happens, we return a 400 error
     postTweetRequestSchema.parse(data);
   } catch (error) {
+    // in case of an error, we return a 400 response
     return NextResponse.json({ error: "Invalid request" }, { status: 400 });
   }
 
-  // the `data` variable is now guaranteed to be of type PostTweetRequest
-  // but the compiler doesn't know that, so we have to cast it with `as`
+  // Now we can safely use the data from the request body
+  // the `as` keyword is a type assertion, this tells typescript
+  // that we know what we're doing and that the data is of type LikeTweetRequest.
+  // This is safe now because we've already validated the data with zod.
   const { handle, content, replyToTweetId } = data as PostTweetRequest;
 
   try {
@@ -60,6 +62,8 @@ export async function POST(request: NextRequest) {
       })
       .execute();
   } catch (error) {
+    // The NextResponse object is a easy to use API to handle responses.
+    // IMHO, it's more concise than the express API.
     return NextResponse.json(
       { error: "Something went wrong" },
       { status: 500 },
