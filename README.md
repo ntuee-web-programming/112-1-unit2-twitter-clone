@@ -65,6 +65,26 @@ yarn create next-app
 
 3. Copy and paste other config files as needed
 
+## What is shadcn/ui?
+
+As stated on its own [website](https://ui.shadcn.com/docs):
+
+> (shadcn/ui is a) **Re-usable components built using Radix UI and Tailwind CSS**.
+>
+> This is NOT a component library. It's a collection of re-usable components that you can copy and paste into your apps.
+>
+> What do you mean by not a component library?
+>
+> I mean you do not install it as a dependency. It is not available or distributed via npm.
+>
+> Pick the components you need. Copy and paste the code into your project and customize to your needs. The code is yours.
+>
+> _Use this as a reference to build your own component libraries._
+
+Radix UI is a styleless component library. It provides the accessible barebone components for you to build your own component library. Tailwind CSS is a utility-first CSS framework. It provides a set of utility classes that you can use to style your components. shadcn/ui is a collection of components built using Radix UI and Tailwind CSS. You can copy and paste the components into your own project and customize them to your needs.
+
+The `components.json` file is used and maintained by the `shadcn/ui` [cli tool](https://ui.shadcn.com/docs/cli). Follow the instructions to setup the cli tool. It is not necessary to setup the cli tool to use the components, but it is useful to have the cli tool to copy and paste the files for you. All components in "./src/components/ui/" are from shadcn/ui, feel free to copy and paste them in your code. You don't have to understand everything in the code, but it's useful to understand if you want to know how to write good components. Learn more about shadcn/ui [here](https://ui.shadcn.com/).
+
 ## Other tips and tricks
 
 ### VSCode
