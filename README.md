@@ -13,7 +13,9 @@ If you have any questions about this repo, feel free to open an issue on this re
 yarn install
 ```
 
-3. Create a `.env.local` file in the root of the project and add a valid Postgres URL. To get a Postgres URL, follow the instructions [here](https://ric2k1.notion.site/Free-postgresql-tutorial-f99605d5c5104acc99b9edf9ab649199?pvs=4).
+3. Create a `.env.local` file in the root of the project and add a _valid_ Postgres URL. To get a Postgres URL, follow the instructions [here](https://ric2k1.notion.site/Free-postgresql-tutorial-f99605d5c5104acc99b9edf9ab649199?pvs=4).
+
+This is just an example, you should replace the URL with your own.
 
 ```bash
 POSTGRES_URL="postgres://postgres:postgres@localhost:5432/twitter"
