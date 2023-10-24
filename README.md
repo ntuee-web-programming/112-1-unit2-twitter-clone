@@ -3,6 +3,8 @@
 See the live demo here: [https://112-1-unit2-twitter-clone.vercel.app/](https://112-1-unit2-twitter-clone.vercel.app/)
 If you have any questions about this repo, feel free to open an issue on this repo or contact me at [eewebprogramming@googlegroups.com](mailto:eewebprogramming@googlegroups.com?subject=twitter-clone%20question)
 
+I update this repo every now and then, so make sure to pull the latest changes with `git pull` before you start working on the project. I will mostly be adding documentation and comments, so you don't have to worry about new updates breaking your code.
+
 ## Running the app
 
 1. Clone the repo
