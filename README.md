@@ -87,7 +87,7 @@ yarn add -D eslint-config-prettier @typescript-eslint/eslint-plugin
 yarn add -D dotenv
 ```
 
-8. Refer to [this section](#what-is-shadcn-ui) to setup `shadcn/ui` if you want to use it
+8. Refer to [this section](#what-is-shadcnui) to setup `shadcn/ui` if you want to use it
 
 9. Install other dependencies if you run into import errors when copying and pasting code from this repo. This type of error is fairly common, the error message should tell you what dependency you need to install. Try to solve the problem by youself before reaching for help.
 
