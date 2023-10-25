@@ -57,15 +57,39 @@ yarn drizzle-kit studio
 
 ## Setup guide
 
-1. Create a next app, and select default options on all prompts
+1. Create a next app, and select `Yes` on all prompts
 
 ```bash
 yarn create next-app
 ```
 
-2. Follow the instructions [here](https://orm.drizzle.team/docs/quick-postgresql/node-postgres) to setup drizzle. If you want to use [neon](https://neon.tech/)'s serverless PostgreSQL feature, follow the instructions [here](https://orm.drizzle.team/docs/quick-postgresql/neon) (you can still use database URL to connect to neon's database like a regular PostgreSQL database).
+2. Install prettier and prettier plugins
 
-3. Copy and paste other config files as needed
+```bash
+yarn add -D prettier prettier-plugin-tailwindcss @trivago/prettier-plugin-sort-imports
+```
+
+3. Install eslint plugins, eslint is already installed by default when running `yarn create next-app`
+
+```bash
+yarn add -D eslint-config-prettier @typescript-eslint/eslint-plugin
+```
+
+4. Copy and paste the `.eslintrc.json` file and `.prettierrc.cjs` file from this repo to your project root
+
+5. Follow the instructions [here](https://orm.drizzle.team/docs/quick-postgresql/node-postgres) to setup drizzle. If you want to use [neon](https://neon.tech/)'s serverless PostgreSQL feature, follow the instructions [here](https://orm.drizzle.team/docs/quick-postgresql/neon) (you can still use database URL to connect to neon's database like a regular PostgreSQL database).
+
+6. Copy and paste the `drizzle.config.ts` file from this repo to your project root
+
+7. I used `dotenv` to read environment variables in `drizzle.config.ts`, so you need to install it
+
+```bash
+yarn add -D dotenv
+```
+
+8. Refer to [this section](#what-is-shadcn-ui) to setup `shadcn/ui` if you want to use it
+
+9. Install other dependencies if you run into import errors when copying and pasting code from this repo. This type of error is fairly common, the error message should tell you what dependency you need to install. Try to solve the problem by youself before reaching for help.
 
 ## What is shadcn/ui?
 
@@ -120,3 +144,11 @@ If you are using neovim you probably know what you are doing, check out my neovi
   - very good course on relational databases, please watch it if you have time
   - although we are using Postgres, most of the concepts are the same
   - refer to postgres docs and drizzle docs about postgres specific syntax
+
+```
+
+```
+
+```
+
+```
