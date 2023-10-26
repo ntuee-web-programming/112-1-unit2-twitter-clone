@@ -36,8 +36,7 @@ export default async function TweetPage({
   params: { tweet_id },
   searchParams: { username, handle },
 }: TweetPageProps) {
-  const tweet_id_num = parseInt(tweet_id);
-
+  // this function redirects to the home page when there is an error
   const errorRedirect = () => {
     const params = new URLSearchParams();
     username && params.set("username", username);
@@ -45,6 +44,8 @@ export default async function TweetPage({
     redirect(`/?${params.toString()}`);
   };
 
+  // if the tweet_id can not be turned into a number, redirect to the home page
+  const tweet_id_num = parseInt(tweet_id);
   if (isNaN(tweet_id_num)) {
     errorRedirect();
   }

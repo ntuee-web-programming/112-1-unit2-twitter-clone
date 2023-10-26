@@ -31,6 +31,8 @@ export default function NameDialog() {
   const [usernameError, setUsernameError] = useState(false);
   const [handleError, setHandleError] = useState(false);
 
+  // check if the username and handle are valid when the component mounts
+  // only show the dialog if the username or handle is invalid
   useEffect(() => {
     const username = searchParams.get("username");
     const handle = searchParams.get("handle");
@@ -38,6 +40,9 @@ export default function NameDialog() {
     setDialogOpen(!validateUsername(username) || !validateHandle(handle));
   }, [searchParams]);
 
+  // handleSave modifies the query params to set the username and handle
+  // we get from the input fields. src/app/page.tsx will read the query params
+  // and insert the user into the database.
   const handleSave = () => {
     const username = usernameInputRef.current?.value;
     const handle = handleInputRef.current?.value;
@@ -58,6 +63,9 @@ export default function NameDialog() {
     // other query params. We can't set new query params directly because the
     // searchParams object returned by useSearchParams is read-only.
     const params = new URLSearchParams(searchParams);
+    // validateUsername and validateHandle would return false if the input is
+    // invalid, so we can safely use the values here and assert that they are
+    // not null or undefined.
     params.set("username", username!);
     params.set("handle", handle!);
     router.push(`${pathname}?${params.toString()}`);
@@ -66,6 +74,11 @@ export default function NameDialog() {
     return true;
   };
 
+  // You might notice that the dialog doesn't close when you click outside of
+  // it. This is beacuse we perform some validation when the dialog closes.
+  // If you pass `setDialogOpen` directly to the Dialog component, it will
+  // behave like a normal dialog and close when you click outside of it.
+  //
   // The Dialog component calls onOpenChange when the dialog wants to open or
   // close itself. We can perform some checks here to prevent the dialog from
   // closing if the input is invalid.
@@ -73,7 +86,7 @@ export default function NameDialog() {
     if (open) {
       setDialogOpen(true);
     } else {
-      // if handleSave returns false, it means that the input is invalid, so we
+      // If handleSave returns false, it means that the input is invalid, so we
       // don't want to close the dialog
       handleSave() && setDialogOpen(false);
     }

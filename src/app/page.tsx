@@ -25,6 +25,8 @@ type HomePageProps = {
 export default async function Home({
   searchParams: { username, handle },
 }: HomePageProps) {
+  // read the username and handle from the query params and insert the user
+  // if needed.
   if (username && handle) {
     await db
       .insert(usersTable)
