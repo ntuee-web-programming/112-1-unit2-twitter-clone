@@ -70,7 +70,7 @@ export default function NameDialog() {
     params.set("handle", handle!);
     router.push(`${pathname}?${params.toString()}`);
     setDialogOpen(false);
-
+    router.refresh();
     return true;
   };
 

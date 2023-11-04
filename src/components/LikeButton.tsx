@@ -1,6 +1,6 @@
 "use client";
 
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import type { EventHandler, MouseEvent } from "react";
 
 import { Heart } from "lucide-react";
@@ -49,6 +49,18 @@ export default function LikeButton({
       setLiked(true);
     }
   };
+
+  // We render `liked` and `likesCount` state on the client.
+  // The initial values from the server are only used to initialize the state
+  // which does nothing on subsequent renders, thus the liked and likesCount
+  // will not be updated on the client even if we do a reouter.refresh().
+  // To solve this, we need to update the state when the initial values change.
+  useEffect(() => {
+    setLiked(initialLiked);
+  }, [initialLiked]);
+  useEffect(() => {
+    setLikesCount(initialLikes);
+  }, [initialLikes]);
 
   return (
     <button
