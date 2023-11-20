@@ -14,11 +14,16 @@ const likeTweetRequestSchema = z.object({
 type LikeTweetRequest = z.infer<typeof likeTweetRequestSchema>;
 
 export async function GET(request: NextRequest) {
-  const data = await request.json();
+  const searchParams = new URL(request.nextUrl).searchParams;
+  const data = {
+    tweetId: Number(searchParams.get("tweetId")),
+    userHandle: searchParams.get("userHandle"),
+  };
 
   try {
     likeTweetRequestSchema.parse(data);
   } catch (error) {
+    console.log(error);
     return NextResponse.json({ error: "Invalid request" }, { status: 400 });
   }
 
